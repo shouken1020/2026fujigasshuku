@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プログラム・タイムテーブル</title>
-    <!-- Tailwind CSS -->
+    <title>プログラム・タイムテーブル (並行セッション対応)</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
@@ -14,9 +12,8 @@
 </head>
 <body class="bg-[#F8F7F3] text-slate-800 font-sans min-h-screen antialiased" x-data="timeTableApp()">
 
-    <div class="max-w-4xl mx-auto px-4 py-10">
+    <div class="max-w-6xl mx-auto px-4 py-10">
         
-        <!-- 上部ヘッダー -->
         <div class="mb-8">
             <span class="inline-block bg-[#E2F2EB] text-[#2E7D5C] text-xs font-bold px-3 py-1 rounded-full mb-3 select-none">
                 2026年度 夏期合宿
@@ -25,7 +22,6 @@
             <p class="text-sm text-slate-500">発表をクリックすると詳細・資料ダウンロードができます</p>
         </div>
 
-        <!-- 日付切り替えタブ -->
         <div class="flex space-x-3 border-b border-slate-200/60 pb-4 mb-8">
             <template x-for="day in ['1日目 (8/1)', '2日目 (8/2)', '3日目 (8/3)']" :key="day">
                 <button 
@@ -37,73 +33,93 @@
             </template>
         </div>
 
-        <!-- タイムライン表示エリア -->
+        <div class="hidden md:grid grid-cols-12 gap-4 mb-2 px-4 text-center font-bold text-xs text-slate-400 uppercase tracking-wider select-none">
+            <div class="col-span-2 text-right pr-6">時間</div>
+            <div class="col-span-3 text-left pl-2">第1会場 (会議室A)</div>
+            <div class="col-span-3 text-left pl-2">第2会場 (会議室B)</div>
+            <div class="col-span-3 text-left pl-2">第3会場 (会議室C)</div>
+        </div>
+
         <div class="space-y-6">
-            <template x-for="(item, index) in filteredItems()" :key="item.id">
-                <div class="flex items-start gap-4 sm:gap-6">
+            <template x-for="slot in filteredSlots()" :key="slot.time">
+                <div class="flex flex-col md:flex-row md:items-start gap-2 md:gap-4">
                     
-                    <!-- 左側：時間 -->
-                    <div class="w-14 sm:w-16 pt-3 text-right font-mono text-sm font-bold text-slate-400 select-none" x-text="item.time"></div>
+                    <div class="w-20 pt-3 text-left md:text-right font-mono text-base font-bold text-slate-400 select-none md:pr-4" x-text="slot.time"></div>
                     
-                    <!-- 右側：カード -->
                     <div class="flex-1">
                         
-                        <!-- 通常の発表・イベントカード -->
-                        <template x-if="!item.isBreak">
-                            <div 
-                                @click="item.hasDetails ? toggleExpand(item.id) : null"
-                                :class="item.hasDetails ? 'cursor-pointer hover:border-slate-300 transition-all' : ''"
-                                class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-                                
-                                <div class="flex justify-between items-start gap-4">
-                                    <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug" x-text="item.title"></h3>
-                                    <!-- 開閉矢印マーク（詳細がある場合のみ） -->
-                                    <template x-if="item.hasDetails">
-                                        <span class="text-slate-400 text-sm transition-transform duration-200 pt-1" :class="isExpanded(item.id) ? 'rotate-180' : ''">▼</span>
-                                    </template>
-                                </div>
-
-                                <!-- 発表者情報 -->
-                                <template x-if="item.speaker">
-                                    <div class="flex items-center gap-2 mt-3">
-                                        <!-- 一文字アバター（苗字の頭文字を自動抽出） -->
-                                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold font-sans" 
-                                             x-text="item.speaker.charAt(0)"></div>
-                                        <span class="text-sm font-medium text-slate-600" x-text="item.speaker"></span>
+                        <template x-if="slot.isGlobal">
+                            <div class="w-full">
+                                <template x-if="slot.events.global.isBreak">
+                                    <div class="bg-[#F1F0EA]/50 border border-dashed border-slate-300 rounded-2xl p-4 flex items-center">
+                                        <span class="font-bold text-slate-700 text-sm sm:text-base" x-text="slot.events.global.title"></span>
                                     </div>
                                 </template>
-
-                                <!-- タグ -->
-                                <div class="mt-3 flex flex-wrap gap-1.5">
-                                    <span :class="getTagClass(item.tag)" class="text-xs px-2.5 py-0.5 rounded-md font-medium" x-text="item.tag"></span>
-                                </div>
-
-                                <!-- 💡 アコーディオン展開部分：詳細文 ＆ DLボタン -->
-                                <div x-show="isExpanded(item.id)" x-collapse x-cloak>
-                                    <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600 leading-relaxed space-y-4">
-                                        <p class="whitespace-pre-wrap bg-slate-50 p-3 rounded-xl border border-slate-100" x-text="item.description || 'ここに発表のアブストラクトや概要テキストが表示されます。'"></p>
+                                <template x-if="!slot.events.global.isBreak">
+                                    <div @click="slot.events.global.hasDetails ? toggleExpand(slot.events.global.id) : null"
+                                         :class="slot.events.global.hasDetails ? 'cursor-pointer hover:border-slate-300' : ''"
+                                         class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all">
+                                        <div class="flex justify-between items-start">
+                                            <h3 class="text-base sm:text-lg font-bold text-slate-900" x-text="slot.events.global.title"></h3>
+                                            <span x-if="slot.events.global.hasDetails" class="text-slate-400 text-sm transition-transform pt-1" :class="isExpanded(slot.events.global.id) ? 'rotate-180' : ''">▼</span>
+                                        </div>
+                                        <div x-if="slot.events.global.speaker" class="flex items-center gap-2 mt-2">
+                                            <div class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center text-xs font-bold" x-text="slot.events.global.speaker.charAt(0)"></div>
+                                            <span class="text-xs text-slate-600" x-text="slot.events.global.speaker"></span>
+                                        </div>
                                         
-                                        <!-- 資料ダウンロードボタン -->
-                                        <template x-if="item.downloadUrl">
-                                            <div class="pt-1">
-                                                <a :href="item.downloadUrl" target="_blank" rel="noopener noreferrer" @click.stop class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs">
-                                                    📥 発表資料をダウンロード (PDF)
-                                                </a>
+                                        <div x-show="isExpanded(slot.events.global.id)" x-collapse x-cloak>
+                                            <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600 space-y-4">
+                                                <p class="whitespace-pre-wrap bg-slate-50 p-3 rounded-xl border border-slate-100" x-text="slot.events.global.description"></p>
+                                                <a x-if="slot.events.global.downloadUrl" :href="slot.events.global.downloadUrl" target="_blank" @click.stop class="inline-flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-xs">📥 資料ダウンロード</a>
                                             </div>
-                                        </template>
-                                        <template x-if="!item.downloadUrl">
-                                            <p class="text-xs text-slate-400 italic">※ 資料は現在準備中です。</p>
-                                        </template>
+                                        </div>
                                     </div>
-                                </div>
-
+                                </template>
                             </div>
                         </template>
 
-                        <!-- 昼食・休憩などの簡易カード（点線枠） -->
-                        <template x-if="item.isBreak">
-                            <div class="bg-[#F1F0EA]/50 border border-dashed border-slate-300 rounded-2xl p-4 flex items-center">
-                                <span class="font-bold text-slate-700 text-sm sm:text-base" x-text="item.title"></span>
+                        <template x-if="!slot.isGlobal">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <template x-for="roomKey in ['roomA', 'roomB', 'roomC']">
+                                    <div class="flex flex-col">
+                                        <span class="md:hidden text-xxs font-bold text-slate-400 mb-1 ml-1" x-text="getRoomLabel(roomKey)"></span>
+                                        
+                                        <div class="flex-1 bg-white border border-slate-200/80 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all flex flex-col justify-between"
+                                             :class="slot.events[roomKey] ? (slot.events[roomKey].hasDetails ? 'cursor-pointer hover:border-slate-300' : '') : 'opacity-40 bg-slate-50/50 border-dashed'">
+                                            
+                                            <template x-if="slot.events[roomKey]">
+                                                <div @click="slot.events[roomKey].hasDetails ? toggleExpand(slot.events[roomKey].id) : null">
+                                                    <div class="flex justify-between items-start gap-2">
+                                                        <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug" x-text="slot.events[roomKey].title"></h4>
+                                                        <span x-if="slot.events[roomKey].hasDetails" class="text-slate-400 text-xs transition-transform pt-0.5" :class="isExpanded(slot.events[roomKey].id) ? 'rotate-180' : ''">▼</span>
+                                                    </div>
+                                                    
+                                                    <div x-if="slot.events[roomKey].speaker" class="flex items-center gap-1.5 mt-2.5">
+                                                        <div class="w-5 h-5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xxs font-bold" x-text="slot.events[roomKey].speaker.charAt(0)"></div>
+                                                        <span class="text-xs font-medium text-slate-600" x-text="slot.events[roomKey].speaker"></span>
+                                                    </div>
+                                                    
+                                                    <div class="mt-2.5">
+                                                        <span :class="getTagClass(slot.events[roomKey].tag)" class="text-xxs px-2 py-0.5 rounded font-medium" x-text="slot.events[roomKey].tag"></span>
+                                                    </div>
+
+                                                    <div x-show="isExpanded(slot.events[roomKey].id)" x-collapse x-cloak>
+                                                        <div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-3">
+                                                            <p class="whitespace-pre-wrap bg-slate-50 p-2.5 rounded-xl border border-slate-100" x-text="slot.events[roomKey].description"></p>
+                                                            <a x-if="slot.events[roomKey].downloadUrl" :href="slot.events[roomKey].downloadUrl" target="_blank" @click.stop class="inline-flex items-center gap-1.5 bg-teal-600 text-white px-3 py-1.5 rounded-lg text-xxs font-bold shadow-xs">📥 ダウンロード</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            
+                                            <template x-if="!slot.events[roomKey]">
+                                                <div class="text-slate-400 text-xs italic py-4 text-center">配置なし</div>
+                                            </template>
+                                            
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </template>
 
@@ -114,7 +130,6 @@
 
     </div>
 
-    <!-- ⚡ データ管理スクリプト -->
     <script>
         function timeTableApp() {
             return {
@@ -122,64 +137,59 @@
                 expandedCards: [],
 
                 // ==========================================
-                // 📊 タイムテーブル データベース
+                // 📊 タイムテーブル データベース（並行版）
                 // ==========================================
-                // 各種項目をここに追加・編集してください
-                timelineItems: [
+                // `isGlobal: true` なら全体イベント、`false` なら3会場に割り振るデータ構造です。
+                timelineSlots: [
                     // --- 1日目 ---
-                    { id: 1, day: '1日目', time: '09:00', title: '開会式・オリエンテーション', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false },
-                    { 
-                        id: 2, 
-                        day: '1日目', 
-                        time: '10:00', 
-                        title: 'ああああ：微積分の応用', 
-                        speaker: '田中 誠一', 
-                        tag: '数学', 
-                        isBreak: false, 
-                        hasDetails: true,
-                        description: '本発表では、データ科学や多変量解析における微分積分の実用的な適用例について論じます。基礎概念の整理から、実データへのモデリングまでを解説します。',
-                        downloadUrl: 'https://www.youtube.com/' 
+                    {
+                        day: '1日目',
+                        time: '09:00',
+                        isGlobal: true,
+                        events: {
+                            global: { id: 101, title: '開会式・オリエンテーション', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false }
+                        }
                     },
-                    { 
-                        id: 3, 
-                        day: '1日目', 
-                        time: '11:00', 
-                        title: '物理発表：量子力学入門', 
-                        speaker: '佐藤 美咲', 
-                        tag: '物理', 
-                        isBreak: false, 
-                        hasDetails: true,
-                        description: '量子状態の重ね合わせと観測問題について、直感的な数理モデルを用いて説明します。後半では最新のコーパスデータ maintenance 等への応用可能性についても触れます。',
-                        downloadUrl: '' // 空欄にすると自動的に「準備中」になります
+                    {
+                        day: '1日目',
+                        time: '10:00',
+                        isGlobal: false, // 💡 ここをfalseにすると3会場並行になります
+                        events: {
+                            roomA: { id: 102, title: 'ああああ：微積分の応用', speaker: '田中 誠一', tag: '数学', hasDetails: true, description: 'データ科学や多変量解析における微分積分の実用的な適用例について論じます。', downloadUrl: 'https://www.youtube.com/' },
+                            roomB: { id: 103, title: '物理発表：量子力学入門', speaker: '佐藤 美咲', tag: '物理', hasDetails: true, description: '量子状態の重ね合わせと観測問題について、直感的な数理モデルを用いて説明します。', downloadUrl: '' },
+                            roomC: { id: 104, title: 'あいうえお', speaker: 'あかさたな', tag: '言語学', hasDetails: true, description: '意味について考察。', downloadUrl: '' }
+                        }
                     },
-                    { id: 4, day: '1日目', time: '12:00', title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false },
-                    { 
-                        id: 5, 
-                        day: '1日目', 
-                        time: '13:30', 
-                        title: 'あいうえお', 
-                        speaker: 'アカサタナ', 
-                        tag: '言語学', 
-                        isBreak: false, 
-                        hasDetails: true,
-                        description: '性質について論じます。',
-                        downloadUrl: 'https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_B'
+                    {
+                        day: '1日目',
+                        time: '11:30',
+                        isGlobal: false,
+                        events: {
+                            roomA: { id: 105, title: '代数幾何学の基礎議論', speaker: '高橋 健太', tag: '数学', hasDetails: false },
+                            // roomB を抜いておけば自動的に「配置なし」になります
+                            roomC: { id: 106, title: '統語論とBCCWJコーパスデータ', speaker: '鈴木 三郎', tag: '言語学', hasDetails: true, description: '大規模コーパスを用いた、形容詞述語文の出現傾向分析。', downloadUrl: '' }
+                        }
                     },
-
-                    // --- 2日目 ---
-                    { id: 6, day: '2日目', time: '09:30', title: '全体ミーティング', speaker: '運営委員会', tag: '業務', isBreak: false, hasDetails: false },
-                    { id: 7, day: '2/日目', time: '12:00', title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false },
-
-                    // --- 3日目 ---
-                    { id: 8, day: '3日目', time: '10:00', title: '総括と片付け・解散', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false }
+                    {
+                        day: '1日目',
+                        time: '12:30',
+                        isGlobal: true,
+                        events: {
+                            global: { id: 107, title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                        }
+                    }
                 ],
 
-                // 選択されている日の項目だけを抽出
-                filteredItems() {
-                    return this.timelineItems.filter(item => item.day === this.activeDay);
+                // 選択されている日のスロットだけを抽出
+                filteredSlots() {
+                    return this.timelineSlots.filter(slot => slot.day === this.activeDay);
                 },
 
-                // アコーディオンの開閉制御
+                getRoomLabel(key) {
+                    const labels = { roomA: '第1会場 (会議室A)', roomB: '第2会場 (会議室B)', roomC: '第3会場 (会議室C)' };
+                    return labels[key];
+                },
+
                 toggleExpand(id) {
                     if (this.expandedCards.includes(id)) {
                         this.expandedCards = this.expandedCards.filter(cardId => cardId !== id);
@@ -191,7 +201,6 @@
                     return this.expandedCards.includes(id);
                 },
 
-                // タグの種類によって背景色を出し分ける
                 getTagClass(tag) {
                     const classes = {
                         '式典': 'bg-slate-100 text-slate-700',
