@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プログラム・タイムテーブル</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-[#F8F7F3] text-slate-800 font-sans min-h-screen antialiased" x-data="timeTableApp()">
+
+    <div class="max-w-4xl mx-auto px-4 py-10">
+        
+        <!-- 上部ヘッダー -->
+        <div class="mb-8">
+            <span class="inline-block bg-[#E2F2EB] text-[#2E7D5C] text-xs font-bold px-3 py-1 rounded-full mb-3 select-none">
+                2026年度 夏期合宿
+            </span>
+            <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">プログラム・タイムテーブル</h1>
+            <p class="text-sm text-slate-500">発表をクリックすると詳細・資料ダウンロードができます</p>
+        </div>
+
+        <!-- 日付切り替えタブ -->
+        <div class="flex space-x-3 border-b border-slate-200/60 pb-4 mb-8">
+            <template x-for="day in ['1日目 (8/1)', '2日目 (8/2)', '3日目 (8/3)']" :key="day">
+                <button 
+                    @click="activeDay = day.split(' ')[0]" 
+                    :class="activeDay === day.split(' ')[0] ? 'bg-white border-slate-400 text-slate-900 font-bold shadow-xs' : 'bg-white border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300'"
+                    class="px-5 py-2.5 rounded-xl border text-sm transition-all duration-200 cursor-pointer"
+                    x-text="day">
+                </button>
+            </template>
+        </div>
+
+        <!-- タイムライン表示エリア -->
+        <div class="space-y-6">
+            <template x-for="(item, index) in filteredItems()" :key="item.id">
+                <div class="flex items-start gap-4 sm:gap-6">
+                    
+                    <!-- 左側：時間 -->
+                    <div class="w-14 sm:w-16 pt-3 text-right font-mono text-sm font-bold text-slate-400 select-none" x-text="item.time"></div>
+                    
+                    <!-- 右側：カード -->
+                    <div class="flex-1">
+                        
+                        <!-- 通常の発表・イベントカード -->
+                        <template x-if="!item.isBreak">
+                            <div 
+                                @click="item.hasDetails ? toggleExpand(item.id) : null"
+                                :class="item.hasDetails ? 'cursor-pointer hover:border-slate-300 transition-all' : ''"
+                                class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+                                
+                                <div class="flex justify-between items-start gap-4">
+                                    <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug" x-text="item.title"></h3>
+                                    <!-- 開閉矢印マーク（詳細がある場合のみ） -->
+                                    <template x-if="item.hasDetails">
+                                        <span class="text-slate-400 text-sm transition-transform duration-200 pt-1" :class="isExpanded(item.id) ? 'rotate-180' : ''">▼</span>
+                                    </template>
+                                </div>
+
+                                <!-- 発表者情報 -->
+                                <template x-if="item.speaker">
+                                    <div class="flex items-center gap-2 mt-3">
+                                        <!-- 一文字アバター（苗字の頭文字を自動抽出） -->
+                                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold font-sans" 
+                                             x-text="item.speaker.charAt(0)"></div>
+                                        <span class="text-sm font-medium text-slate-600" x-text="item.speaker"></span>
+                                    </div>
+                                </template>
+
+                                <!-- タグ -->
+                                <div class="mt-3 flex flex-wrap gap-1.5">
+                                    <span :class="getTagClass(item.tag)" class="text-xs px-2.5 py-0.5 rounded-md font-medium" x-text="item.tag"></span>
+                                </div>
+
+                                <!-- 💡 アコーディオン展開部分：詳細文 ＆ DLボタン -->
+                                <div x-show="isExpanded(item.id)" x-collapse x-cloak>
+                                    <div class="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600 leading-relaxed space-y-4">
+                                        <p class="whitespace-pre-wrap bg-slate-50 p-3 rounded-xl border border-slate-100" x-text="item.description || 'ここに発表のアブストラクトや概要テキストが表示されます。'"></p>
+                                        
+                                        <!-- 資料ダウンロードボタン -->
+                                        <template x-if="item.downloadUrl">
+                                            <div class="pt-1">
+                                                <a :href="item.downloadUrl" target="_blank" rel="noopener noreferrer" @click.stop class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs">
+                                                    📥 発表資料をダウンロード (PDF)
+                                                </a>
+                                            </div>
+                                        </template>
+                                        <template x-if="!item.downloadUrl">
+                                            <p class="text-xs text-slate-400 italic">※ 資料は現在準備中です。</p>
+                                        </template>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </template>
+
+                        <!-- 昼食・休憩などの簡易カード（点線枠） -->
+                        <template x-if="item.isBreak">
+                            <div class="bg-[#F1F0EA]/50 border border-dashed border-slate-300 rounded-2xl p-4 flex items-center">
+                                <span class="font-bold text-slate-700 text-sm sm:text-base" x-text="item.title"></span>
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+            </template>
+        </div>
+
+    </div>
+
+    <!-- ⚡ データ管理スクリプト -->
+    <script>
+        function timeTableApp() {
+            return {
+                activeDay: '1日目',
+                expandedCards: [],
+
+                // ==========================================
+                // 📊 タイムテーブル データベース
+                // ==========================================
+                // 各種項目をここに追加・編集してください
+                timelineItems: [
+                    // --- 1日目 ---
+                    { id: 1, day: '1日目', time: '09:00', title: '開会式・オリエンテーション', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false },
+                    { 
+                        id: 2, 
+                        day: '1日目', 
+                        time: '10:00', 
+                        title: '数学特講：微積分の応用', 
+                        speaker: '田中 誠一', 
+                        tag: '数学', 
+                        isBreak: false, 
+                        hasDetails: true,
+                        description: '本発表では、データ科学や多変量解析における微分積分の実用的な適用例について論じます。基礎概念の整理から、実データへのモデリングまでを解説します。',
+                        downloadUrl: 'https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_A' 
+                    },
+                    { 
+                        id: 3, 
+                        day: '1日目', 
+                        time: '11:00', 
+                        title: '物理発表：量子力学入門', 
+                        speaker: '佐藤 美咲', 
+                        tag: '物理', 
+                        isBreak: false, 
+                        hasDetails: true,
+                        description: '量子状態の重ね合わせと観測問題について、直感的な数理モデルを用いて説明します。後半では最新のコーパスデータ maintenance 等への応用可能性についても触れます。',
+                        downloadUrl: '' // 空欄にすると自動的に「準備中」になります
+                    },
+                    { id: 4, day: '1日目', time: '12:00', title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false },
+                    { 
+                        id: 5, 
+                        day: '1日目', 
+                        time: '13:30', 
+                        title: '日本語形容詞述語文におけるテンスとアスペクトの研究', 
+                        speaker: '蕭 暄', 
+                        tag: '言語学', 
+                        isBreak: false, 
+                        hasDetails: true,
+                        description: '現代日本語における形容詞述語文の「タ形」が持つ、過去・完了・ムード（発見・想起など）の多面的な意味論的・統語論的性質について論じます。',
+                        downloadUrl: 'https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_B'
+                    },
+
+                    // --- 2日目 ---
+                    { id: 6, day: '2日目', time: '09:30', title: '全体ミーティング', speaker: '運営委員会', tag: '業務', isBreak: false, hasDetails: false },
+                    { id: 7, day: '2/日目', time: '12:00', title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false },
+
+                    // --- 3日目 ---
+                    { id: 8, day: '3日目', time: '10:00', title: '総括と片付け・解散', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false }
+                ],
+
+                // 選択されている日の項目だけを抽出
+                filteredItems() {
+                    return this.timelineItems.filter(item => item.day === this.activeDay);
+                },
+
+                // アコーディオンの開閉制御
+                toggleExpand(id) {
+                    if (this.expandedCards.includes(id)) {
+                        this.expandedCards = this.expandedCards.filter(cardId => cardId !== id);
+                    } else {
+                        this.expandedCards.push(id);
+                    }
+                },
+                isExpanded(id) {
+                    return this.expandedCards.includes(id);
+                },
+
+                // タグの種類によって背景色を出し分ける
+                getTagClass(tag) {
+                    const classes = {
+                        '式典': 'bg-slate-100 text-slate-700',
+                        '数学': 'bg-blue-50 text-blue-700 border border-blue-100',
+                        '物理': 'bg-orange-50 text-orange-700 border border-orange-100',
+                        '言語学': 'bg-teal-50 text-teal-700 border border-teal-100'
+                    };
+                    return classes[tag] || 'bg-gray-100 text-gray-700';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
