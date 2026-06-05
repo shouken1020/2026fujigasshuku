@@ -193,22 +193,30 @@
                         }
                     },
                     {
-                        day: '1日目',
-                        time: '12:30',
-                        isGlobal: true,
-                        events: {
-                            global: { id: 108, title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
-                        }
-                    }
+    day: '1日目',
+    time: '12:30',
+    isGlobal: true,
+    events: {
+        global: { id: 108, title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
+    }
+}, // ← ★これ！
+
+{
+    day: '1日目',
+    time: '8:30',
+    isGlobal: true,
+    events: {
+        global: { id: 109, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
+    }
+},
                     {
-                        day: '1日目',
-                        time: '8:30',
-                        isGlobal: true,
-                        events: {
-                            global: { id: 108, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
-                        }
-                    }
-                ],
+    day: '3日目',
+    time: '8:30',
+    isGlobal: true,
+    events: {
+        global: { id: 109, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
+    }
+},
 
                 filteredSlots() {
                     return this.timelineSlots.filter(slot => slot.day === this.activeDay);
