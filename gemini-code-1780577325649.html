@@ -14,7 +14,7 @@
 
     <div class="max-w-6xl mx-auto px-4 py-10">
         <div class="absolute top-0 right-0 pt-10 pr-4 text-xs text-slate-500">
-            最終更新：2026年6月5日 23:51
+            最終更新：2026年6月18日 17:00
         </div>
         
         <div class="mb-8">
@@ -46,23 +46,30 @@
 
         <div class="space-y-6">
             <template x-for="slot in filteredSlots()" :key="slot.time">
-                <div class="flex flex-col md:flex-row md:items-start gap-2 md:gap-4">
+                <div class="flex flex-col md:flex-row md:items-stretch gap-2 md:gap-4">       
                     
-                    <div class="w-20 pt-3 text-left md:text-right font-mono text-base font-bold text-slate-400 select-none md:pr-4" x-text="slot.time"></div>
-                    
-                    <div class="flex-1">
+                    <div class="w-20 flex md:flex-col justify-between items-center font-mono font-bold text-slate-400 select-none md:pr-4 py-1 shrink-0">
+                        <div class="text-sm leading-none" x-text="slot.time"></div>
                         
+                        <div class="hidden md:block w-px bg-slate-200 my-2 flex-1 min-h-[16px]"></div>
+                        <div class="md:hidden text-xs text-slate-300 font-normal px-1">～</div>
+                        
+                        <div class="text-sm leading-none" x-text="slot.endTime"></div>
+                    </div>
+                    
+                    <div class="flex-1 flex flex-col justify-stretch">
+                                
                         <template x-if="slot.isGlobal">
-                            <div class="w-full">
+                            <div class="w-full h-full">
                                 <template x-if="slot.events.global.isBreak">
-                                    <div class="bg-[#F1F0EA]/50 border border-dashed border-slate-300 rounded-2xl p-4 flex items-center">
+                                    <div class="bg-[#F1F0EA]/50 border border-dashed border-slate-300 rounded-2xl p-4 flex items-center h-full">
                                         <span class="font-bold text-slate-700 text-sm sm:text-base" x-text="slot.events.global.title"></span>
                                     </div>
                                 </template>
                                 <template x-if="!slot.events.global.isBreak">
                                     <div @click="slot.events.global.hasDetails ? toggleExpand(slot.events.global.id) : null"
                                          :class="slot.events.global.hasDetails ? 'cursor-pointer hover:border-slate-300' : ''"
-                                         class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all">
+                                         class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all h-full flex flex-col justify-between">
                                         <div class="flex justify-between items-start">
                                             <h3 class="text-base sm:text-lg font-bold text-slate-900" x-text="slot.events.global.title"></h3>
                                             <span x-if="slot.events.global.hasDetails" class="text-slate-400 text-sm transition-transform pt-1" :class="isExpanded(slot.events.global.id) ? 'rotate-180' : ''">▼</span>
@@ -84,41 +91,45 @@
                         </template>
 
                         <template x-if="!slot.isGlobal">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 items-stretch">
                                 <template x-for="roomKey in ['roomA', 'roomB', 'roomC']">
-                                    <div class="flex flex-col">
+                                    <div class="flex flex-col h-full">
                                         <span class="md:hidden text-xxs font-bold text-slate-400 mb-1 ml-1" x-text="getRoomLabel(roomKey)"></span>
                                         
-                                        <div class="flex-1 bg-white border border-slate-200/80 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all flex flex-col justify-between"
+                                        <div class="flex-1 bg-white border border-slate-200/80 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all flex flex-col justify-between h-full"
                                              :class="slot.events[roomKey] ? (slot.events[roomKey].hasDetails ? 'cursor-pointer hover:border-slate-300' : '') : 'opacity-40 bg-slate-50/50 border-dashed'">
                                             
                                             <template x-if="slot.events[roomKey]">
-                                                <div @click="slot.events[roomKey].hasDetails ? toggleExpand(slot.events[roomKey].id) : null">
-                                                    <div class="flex justify-between items-start gap-2">
-                                                        <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug" x-text="slot.events[roomKey].title"></h4>
-                                                        <span x-if="slot.events[roomKey].hasDetails" class="text-slate-400 text-xs transition-transform pt-0.5" :class="isExpanded(slot.events[roomKey].id) ? 'rotate-180' : ''">▼</span>
+                                                <div @click="slot.events[roomKey].hasDetails ? toggleExpand(slot.events[roomKey].id) : null" class="flex flex-col justify-between h-full flex-1">
+                                                    <div>
+                                                        <div class="flex justify-between items-start gap-2">
+                                                            <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug" x-text="slot.events[roomKey].title"></h4>
+                                                            <span x-if="slot.events[roomKey].hasDetails" class="text-slate-400 text-xs transition-transform pt-0.5" :class="isExpanded(slot.events[roomKey].id) ? 'rotate-180' : ''">▼</span>
+                                                        </div>
+                                                        
+                                                        <div x-if="slot.events[roomKey].speaker" class="flex items-center gap-1.5 mt-2.5">
+                                                            <div class="w-5 h-5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xxs font-bold" x-text="slot.events[roomKey].speaker.charAt(0)"></div>
+                                                            <span class="text-xs font-medium text-slate-600" x-text="slot.events[roomKey].speaker"></span>
+                                                        </div>
                                                     </div>
                                                     
-                                                    <div x-if="slot.events[roomKey].speaker" class="flex items-center gap-1.5 mt-2.5">
-                                                        <div class="w-5 h-5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xxs font-bold" x-text="slot.events[roomKey].speaker.charAt(0)"></div>
-                                                        <span class="text-xs font-medium text-slate-600" x-text="slot.events[roomKey].speaker"></span>
-                                                    </div>
-                                                    
-                                                    <div class="mt-2.5">
-                                                        <span :class="getTagClass(slot.events[roomKey].tag)" class="text-xxs px-2 py-0.5 rounded font-medium" x-text="slot.events[roomKey].tag"></span>
-                                                    </div>
+                                                    <div>
+                                                        <div class="mt-2.5">
+                                                            <span :class="getTagClass(slot.events[roomKey].tag)" class="text-xxs px-2 py-0.5 rounded font-medium" x-text="slot.events[roomKey].tag"></span>
+                                                        </div>
 
-                                                    <div x-show="isExpanded(slot.events[roomKey].id)" x-collapse x-cloak>
-                                                        <div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-3">
-                                                            <p class="whitespace-pre-wrap bg-slate-50 p-2.5 rounded-xl border border-slate-100" x-text="slot.events[roomKey].description"></p>
-                                                            <a x-if="slot.events[roomKey].downloadUrl" :href="slot.events[roomKey].downloadUrl" target="_blank" @click.stop class="inline-flex items-center gap-1.5 bg-teal-600 text-white px-3 py-1.5 rounded-lg text-xxs font-bold shadow-xs">📥 ダウンロード</a>
+                                                        <div x-show="isExpanded(slot.events[roomKey].id)" x-collapse x-cloak>
+                                                            <div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-3">
+                                                                <p class="whitespace-pre-wrap bg-slate-50 p-2.5 rounded-xl border border-slate-100" x-text="slot.events[roomKey].description"></p>
+                                                                <a x-if="slot.events[roomKey].downloadUrl" :href="slot.events[roomKey].downloadUrl" target="_blank" @click.stop class="inline-flex items-center gap-1.5 bg-teal-600 text-white px-3 py-1.5 rounded-lg text-xxs font-bold shadow-xs">📥 ダウンロード</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </template>
                                             
                                             <template x-if="!slot.events[roomKey]">
-                                                <div class="text-slate-400 text-xs italic py-4 text-center">発表なし</div>
+                                                <div class="text-slate-600 text-s italic py-4 text-center my-auto">発表なし</div>
                                             </template>
                                             
                                         </div>
@@ -230,7 +241,7 @@
                     //1日目発表
                     {
                         day: '1日目',
-                        time: '14:00',
+                        time: '14:00', endTime: '14:20',
                         isGlobal: false,
                         events: {
                             roomA: { 
@@ -260,7 +271,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '14:25',
+                        time: '14:25', endTime: '14:45',
                         isGlobal: false,
                         events: {
                             roomA: { 
@@ -291,7 +302,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '14:50',
+                        time: '14:50', endTime: '15:10',
                         isGlobal: false,
                         events: {
                             roomA: { 
@@ -322,13 +333,13 @@
                     },
                     {
                         day: '1日目',
-                        time: '19:00',
+                        time: '19:00', endTime: '19:30',
                         isGlobal: false,
                         events: {
                             roomA: { 
                                 id: 111107, 
                                 title: '形容詞の用法における対応と対立(仮)', 
-                                speaker: '永谷　直子 ', 
+                                speaker: '永谷 直子 ', 
                                 tag: '教員', 
                                 hasDetails: true, 
                                 description: '相模女子大学', 
@@ -347,12 +358,12 @@
                     //2日目発表
                     {
                         day: '2日目',
-                        time: '08:30',
+                        time: '08:30', endTime: '08:50',
                         isGlobal: false,
                         events: {
                             roomA: { 
                                 id: 1042345366, 
-                                title: 'B-JASコーパスにおけるオノマトペの産出に関する一考察　ー「のんびり」を例にー（仮）', 
+                                title: 'B-JASコーパスにおけるオノマトペの産出に関する一考察 ー「のんびり」を例にー（仮）', 
                                 speaker: '李振華', 
                                 tag: '学生', 
                                 hasDetails: true, 
@@ -401,7 +412,7 @@
                             roomC: { 
                                 id: 13244535678, 
                                 title: '生成系AIを用いた会話事前練習が日本語学習者のやり取り能力と会話不安に与える影響 ―ChatGPTとのロールプレイ実践を通して―', 
-                                speaker: 'オウ　コウセン', 
+                                speaker: 'オウ コウセン', 
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '山梨英和大学', 
@@ -417,7 +428,7 @@
                 },
 
                 getRoomLabel(key) {
-                    const labels = { roomA: '第1会場 (会議室A)', roomB: '第2会場 (会議室B)', roomC: '第3会場 (会議室C)' };
+                    const labels = { roomA: '中研修室4', roomB: '中研修室1', roomC: '中研修室2' };
                     return labels[key];
                 },
 
