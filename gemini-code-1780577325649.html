@@ -142,21 +142,36 @@
                 timelineSlots: [
                     // --- 1日目 ---
                     {
-                        day: '1日目',
-                        time: '09:00',
-                        isGlobal: true,
-                        events: {
-                            global: { id: 101, title: '開会式・オリエンテーション', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: true, description: '本当に出る？' }
-                        }
-                    }// 👈 【修正】不要な開始波カッコを除去し、閉じ波カッコとカンマを正しく配置
-                    {
-                        day: '1日目',
-                        time: '11:00',
-                        isGlobal: true,
-                        events: {
-                            global: { id: 102, title: '昼ごはん', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false } // 👈 【修正】ID重複を防ぐため1012に変更
-                        }  
-                    },
+    day: '1日目',
+    time: '09:00',
+    isGlobal: true,
+    events: {
+        global: {
+            id: 101,
+            title: '開会式・オリエンテーション',
+            speaker: '運営委員会',
+            tag: '式典',
+            isBreak: false,
+            hasDetails: true,
+            description: '本当に出る？'
+        }
+    }
+}, // ← ★ このカンマを入れる
+{
+    day: '1日目',
+    time: '11:00',
+    isGlobal: true,
+    events: {
+        global: {
+            id: 102,
+            title: '昼ごはん',
+            speaker: '運営委員会',
+            tag: '式典',
+            isBreak: false,
+            hasDetails: false
+        }
+    }
+},
                     {
                         day: '1日目',
                         time: '11:10',
