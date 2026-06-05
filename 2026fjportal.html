@@ -59,17 +59,17 @@
                         <p class="text-m text-gray-700 font-bold leading-relaxed">
                             一番新しいお知らせ。<br>
                             みんなで一緒に富士浅間神社に行きましょう！（提案：○○先生）。<br>
-                            参加希望者は15:30正門集合
+                            参加希望者は15:30正門集合                        
                         </p>
                     </div>
-                    <!-- ここまで。更新したらbold解除、日付をgreenに-->
+                    <!-- ここまで。更新したらbold解除、日付のtextcolorをgreenに-->
 
                     <div class="bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
                         <div class="text-xs text-green-600 font-mono mb-2 flex items-center gap-1">
                             <span>📅</span> 2026年6月18日 17:00
                         </div>
                         <p class="text-sm text-gray-700 leading-relaxed">
-                            前の情報。<br>
+                            一個前の情報。<br>
                             kaigyousitemiru
                         </p>
                     </div>
@@ -87,32 +87,39 @@
                     </a>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex items-center space-x-2 mb-3">
-                        <span class="text-blue-600 text-xl">🎒</span>
-                        <h3 class="font-bold text-base text-gray-800">当日の持ち物・服装</h3>
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <h3 class="font-bold text-xl mb-4 text-gray-900 border-b border-gray-100 pb-2 flex items-center gap-2">
+                        🎒 当日の持ち物・服装
+                    </h3>
+                    <div class="bg-blue-50/30 p-4 rounded-xl">
+                        <p class="text-gray-700">
+                            ノートPC、充電ケーブル、筆記用具をご持参ください。館内は空調により肌寒くなる場合があるため、羽織るものがあると便利です。
+                        </p>
                     </div>
-                    <p class="text-sm text-gray-700 leading-relaxed bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                        ノートPC、充電ケーブル、筆記用具をご持参ください。館内は空調により肌寒くなる場合があるため、羽織るものがあると便利です。
-                    </p>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <div class="flex items-center space-x-2 mb-3">
-                        <span class="text-blue-600 text-xl">📶</span>
-                        <h3 class="font-bold text-base text-gray-800">会場Wi-Fi情報</h3>
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-bold text-xl mb-4 text-gray-900 border-b border-gray-100 pb-2 flex items-center gap-2">
+                        📶 会場Wi-Fi情報
+                    </h3>
+                    <div class="bg-blue-50/30 p-4 rounded-xl flex items-center gap-6">
+                        <div>
+                            <span class="text-gray-500 mr-2">SSID:</span>
+                            <span class="font-mono bg-white px-2 py-1 rounded border border-gray-200 text-blue-600">Fuji-Seminar-Guest</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 mr-2">PASS:</span>
+                            <span class="font-mono bg-white px-2 py-1 rounded border border-gray-200 text-blue-600">fuji2026camp</span>
+                        </div>
                     </div>
-                    <div class="text-sm text-gray-700 flex items-center gap-6 bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                        <p><span class="font-medium text-gray-500">SSID:</span> <code class="bg-white px-2 py-0.5 rounded text-xs font-mono text-blue-600 border border-gray-100 ml-1">Fuji-Seminar-Guest</code></p>
-                        <p><span class="font-medium text-gray-500">PASS:</span> <code class="bg-white px-2 py-0.5 rounded text-xs font-mono text-blue-600 border border-gray-100 ml-1">fuji2026camp</code></p>
-                    </div>
+                </div>
                 </div>
             </div>
         </div>
 
         <div x-show="currentTab === 'schedule'" x-transition>
             <div class="w-full">
-                <iframe src="https://shouken1020.github.io/2026fujigasshuku/gemini-code-1780577325649.html" class="w-full h-[700px] rounded-xl border border-gray-200 shadow-sm bg-white"></iframe>
+                <iframe src="https://shouken1020.github.io/2026fujigasshuku/2026fjprogram.html" class="w-full h-[700px] rounded-xl border border-gray-200 shadow-sm bg-white"></iframe>
             </div>
         </div>
 
@@ -130,13 +137,13 @@
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <h3 class="font-bold text-xl mb-4 text-gray-900 border-b border-gray-100 pb-2">📂 共有リソース一覧</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <a href="https://www.yahoo.co.jp/" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
+                    <a href="https://www.dropbox.com/request/zk7m0sqc2tbvnp915yf5" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
                         <h4 class="font-bold text-blue-600 group-hover:underline">📸 写真共有（dropboxのアップロードリンク）</h4>
                         <p class="text-sm text-gray-500 mt-1">合宿中に撮った写真はすべてここへアップロードしてください。</p>
                     </a>
-                    <a href="https://www.irasutoya.com/" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
+                    <a href="https://www.dropbox.com/scl/fo/4a6axyebagdayhtx86j06/AGsqxeuqC-vj5sM2IWl84DQ?rlkey=35g6knx23g40t1e58qit9zzv0&st=9d5geh1n&dl=0" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
                         <h4 class="font-bold text-blue-600 group-hover:underline">📖 写真共有（dropboxのアクセスリンク）</h4>
-                        <p class="text-sm text-gray-500 mt-1">アップロードした写真はここから見られます。</p>
+                        <p class="text-sm text-gray-500 mt-1">みんながアップロードした写真はここから見られます。</p>
                     </a>
                     <div class="p-4 border border-gray-100 bg-gray-50 rounded-xl col-span-1 sm:col-span-2">
 
