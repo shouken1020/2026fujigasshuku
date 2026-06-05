@@ -10,20 +10,15 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-[#F8F7F3] text-slate-800 font-sans min-h-screen antialiased" x-data="timeTableApp()">
+<body class="bg-[#ffffff] text-slate-800 font-sans min-h-screen antialiased" x-data="timeTableApp()">
 
     <div class="max-w-6xl mx-auto px-4 py-10">
-        <!-- 最終更新を追加 -->
         <div class="absolute top-0 right-0 pt-10 pr-4 text-xs text-slate-500">
             最終更新：2026年6月18日 17:00
         </div>
+        
         <div class="mb-8">
-            <span class="inline-block bg-[#E2F2EB] text-[#2E7D5C] text-s font-bold px-5 py-2 rounded-full mb-3 select-none">
-                2026年度 富士山合宿
-            </span>
-            <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">プログラム・タイムテーブル</h1>
             <p class="text-sm text-slate-600">発表をクリックすると資料ダウンロードができます</p>
-            
         </div>
 
         <div class="flex space-x-3 border-b border-slate-200/60 pb-4 mb-8">
@@ -159,7 +154,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '08:30', // 👈 綺麗にソートされるよう「08:30」に表記を統一
+                        time: '08:30',
                         isGlobal: true,
                         events: {
                             global: { id: 1119, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
@@ -326,7 +321,6 @@
                     }
                 ],
 
-                // 💡 【修正】抽出したスロットをさらに時間の昇順（早い順）にソートして返します
                 filteredSlots() {
                     return this.timelineSlots
                         .filter(slot => slot.day === this.activeDay)
