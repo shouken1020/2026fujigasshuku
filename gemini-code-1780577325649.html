@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プログラム・タイムテーブル (並行セッション)</title>
+    <title>プログラム・タイムテーブル </title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
@@ -13,17 +13,21 @@
 <body class="bg-[#F8F7F3] text-slate-800 font-sans min-h-screen antialiased" x-data="timeTableApp()">
 
     <div class="max-w-6xl mx-auto px-4 py-10">
-        
+        <!-- 最終更新を追加 -->
+        <div class="absolute top-0 right-0 pt-10 pr-4 text-xs text-slate-500">
+            最終更新：2026年6月18日 17:00
+        </div>
         <div class="mb-8">
-            <span class="inline-block bg-[#E2F2EB] text-[#2E7D5C] text-xs font-bold px-3 py-1 rounded-full mb-3 select-none">
+            <span class="inline-block bg-[#E2F2EB] text-[#2E7D5C] text-s font-bold px-5 py-2 rounded-full mb-3 select-none">
                 2026年度 富士山合宿
             </span>
             <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">プログラム・タイムテーブル</h1>
-            <p class="text-sm text-slate-500">発表をクリックすると詳細・資料ダウンロードができます</p>
+            <p class="text-sm text-slate-600">発表をクリックすると資料ダウンロードができます</p>
+            
         </div>
 
         <div class="flex space-x-3 border-b border-slate-200/60 pb-4 mb-8">
-            <template x-for="day in ['1日目 (8/1)', '2日目 (8/2)', '3日目 (8/3)']" :key="day">
+            <template x-for="day in ['1日目 (6/19)', '2日目 (6/20)', '3日目 (6/21)']" :key="day">
                 <button 
                     @click="activeDay = day.split(' ')[0]" 
                     :class="activeDay === day.split(' ')[0] ? 'bg-white border-slate-400 text-slate-900 font-bold shadow-xs' : 'bg-white border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300'"
@@ -33,11 +37,14 @@
             </template>
         </div>
 
-        <div class="hidden md:grid grid-cols-12 gap-4 mb-2 px-4 text-center font-bold text-xs text-slate-400 uppercase tracking-wider select-none">
-            <div class="col-span-2 text-right pr-6">時間</div>
-            <div class="col-span-3 text-left pl-2">第1会場 (会議室A)</div>
-            <div class="col-span-3 text-left pl-2">第2会場 (会議室B)</div>
-            <div class="col-span-3 text-left pl-2">第3会場 (会議室C)</div>
+        <div class="hidden md:flex flex-row gap-4 mb-2 select-none">
+            <div class="w-20"></div> 
+            
+            <div class="flex-1 grid grid-cols-3 gap-4 text-center font-bold text-xs text-slate-400 uppercase tracking-wider">
+                <div>第1会場 (会議室A)</div>
+                <div>第2会場 (会議室B)</div>
+                <div>第3会場 (会議室C)</div>
+            </div>
         </div>
 
         <div class="space-y-6">
@@ -140,63 +147,14 @@
                 // 📊 タイムテーブル データベース（並行版）
                 // ==========================================
                 timelineSlots: [
-                    // --- 1日目 ---
-                    {
-                        day: '1日目',
-                        time: '09:00',
-                        isGlobal: true,
-                        events: {
-                            global: {
-                                id: 101,
-                                title: '開会式・オリエンテーション',
-                                speaker: '運営委員会',
-                                tag: '式典',
-                                isBreak: false,
-                                hasDetails: true,
-                                description: '本当に出る？'
-                            }
-                        }
-                    },
-                    {
-                        day: '2日目',
-                        time: '11:00',
-                        isGlobal: true,
-                        events: {
-                            global: {
-                                id: 102,
-                                title: '2昼ごはん',
-                                speaker: '運営委員会',
-                                tag: '式典',
-                                isBreak: false,
-                                hasDetails: false
-                            }
-                        }
-                    },
-                    {
-                        day: '1日目',
-                        time: '11:10',
-                        isGlobal: false,
-                        events: {
-                            roomA: { id: 103, title: 'ああああ：微積分の応用', speaker: '田中 誠一', tag: '教員', hasDetails: true, description: 'データ科学や多変量解析における微分積分の実用的な適用例について論じます。', downloadUrl: 'https://www.youtube.com/' },
-                            roomB: { id: 104, title: '物理発表：量子力学入門', speaker: '佐藤 美咲', tag: '学生', hasDetails: true, description: '量子状態の重ね合わせと観測問題について、直感的な数理モデルを用いて説明します。', downloadUrl: '' },
-                            roomC: { id: 105, title: 'あいうえお', speaker: 'あかさたな', tag: '言語学', hasDetails: true, description: '意味について考察。', downloadUrl: '' }
-                        }
-                    },
-                    {
-                        day: '1日目',
-                        time: '11:30',
-                        isGlobal: false,
-                        events: {
-                            roomA: { id: 106, title: '代数幾何学の基礎議論', speaker: '高橋 健太', tag: '数学', hasDetails: false },
-                            roomC: { id: 107, title: '統語論とBCCWJコーパスデータ', speaker: '鈴木 三郎', tag: '言語学', hasDetails: true, description: '大規模コーパスを用いた、形容詞述語文の出現傾向分析。', downloadUrl: '' }
-                        }
-                    },
-                    {
+
+                    //三食
+                   {
                         day: '1日目',
                         time: '12:30',
                         isGlobal: true,
                         events: {
-                            global: { id: 108, title: '昼a食・休a憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                            global: { id: 108, title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
                         }
                     },
                     {
@@ -208,11 +166,162 @@
                         }
                     },
                     {
+                        day: '1日目',
+                        time: '11:20', 
+                        isGlobal: true,
+                        events: {
+                            global: { id: 1111, title: '調整時間', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                        }
+                    },
+                    //調整時間
+                    {
                         day: '3日目',
-                        time: '08:30', // 👈 「08:30」に統一
+                        time: '08:30', 
                         isGlobal: true,
                         events: {
                             global: { id: 2229, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                        }
+                    },
+                    {
+                        day: '1日目',
+                        time: '09:00',
+                        isGlobal: true,
+                        events: {
+                            global: {
+                                id: 101324561,
+                                title: 'あああオリエンテーション',
+                                speaker: '運営委員会',
+                                tag: '式典',
+                                isBreak: false,
+                                hasDetails: true,
+                                description: '本当に出る？'
+                            }
+                        }
+                    },
+                    //1日目発表
+                    {
+                        day: '1日目',
+                        time: '11:10',
+                        isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 1044, 
+                                title: 'A会場のもの', 
+                                speaker: '田中 ', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '更新', 
+                                downloadUrl: 'https://www.youtube.com/' },
+                            roomB: { 
+                                id: 10111, 
+                                title: 'B会場のもの', 
+                                speaker: '佐藤 ', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '。', 
+                                downloadUrl: 'https://cir.nii.ac.jp/' },
+                            roomC: { id: 122301, 
+                                title: 'あいうえお', 
+                                speaker: 'あかさたな', 
+                                tag: '言語学', 
+                                hasDetails: true, 
+                                description: '意味について考察。', 
+                                downloadUrl: '' }
+                        }
+                    },
+                    {
+                        day: '1日目',
+                        time: '11:30',
+                        isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 1066, 
+                                title: 'A会場のもの2', 
+                                speaker: '田中 ', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '更新', 
+                                downloadUrl: 'https://www.youtube.com/' },
+                            roomB: { 
+                                id: 16543, 
+                                title: 'B会場のもの2', 
+                                speaker: '佐藤 ', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '。', 
+                                downloadUrl: 'https://cir.nii.ac.jp/' },
+                            roomC: { 
+                                id: 13245678, 
+                                title: 'あいうえお', 
+                                speaker: 'あかさたな', 
+                                tag: '言語学', 
+                                hasDetails: true, 
+                                description: '意味について考察。', 
+                                downloadUrl: '' }
+                        }
+                    },
+                    //2日目発表
+                    {
+                        day: '2日目',
+                        time: '11:30',
+                        isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 1042345366, 
+                                title: 'D2A会場のもの2', 
+                                speaker: '田中 ', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '更新', 
+                                downloadUrl: 'https://www.youtube.com/' },
+                            roomB: { 
+                                id: 16453453543, 
+                                title: 'B会場のものD2', 
+                                speaker: '佐藤 ', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '。', 
+                                downloadUrl: 'https://cir.nii.ac.jp/' },
+                            roomC: { 
+                                id: 13244534535678, 
+                                title: 'あいうえおD2', 
+                                speaker: 'あかさたな', 
+                                tag: '言語学', 
+                                hasDetails: true, 
+                                description: '意味について考察。', 
+                                downloadUrl: '' }
+                        }
+                    },
+                    //3日目発表
+                    {
+                        day: '3日目',
+                        time: '10:30',
+                        isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 104453226, 
+                                title: 'A会場のものD3', 
+                                speaker: '田中 ', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '更新', 
+                                downloadUrl: 'https://www.youtube.com/' },
+                            roomB: { 
+                                id: 1643553543, 
+                                title: 'B会場のものD3', 
+                                speaker: '佐藤 ', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '。', 
+                                downloadUrl: 'https://cir.nii.ac.jp/' },
+                            roomC: { 
+                                id: 13244535435678, 
+                                title: 'あいうえおD3', 
+                                speaker: 'あかさたな', 
+                                tag: '言語学', 
+                                hasDetails: true, 
+                                description: '意味について考察。', 
+                                downloadUrl: '' }
                         }
                     }
                 ],
