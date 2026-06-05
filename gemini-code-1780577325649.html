@@ -14,7 +14,7 @@
 
     <div class="max-w-6xl mx-auto px-4 py-10">
         <div class="absolute top-0 right-0 pt-10 pr-4 text-xs text-slate-500">
-            最終更新：2026年6月6日 01:38
+            最終更新：2026年6月18日 17:00
         </div>
         
         <div class="mb-8">
@@ -103,7 +103,7 @@
                                                 <div @click="slot.events[roomKey].hasDetails ? toggleExpand(slot.events[roomKey].id) : null" class="flex flex-col justify-between h-full flex-1">
                                                     <div>
                                                         <div class="flex justify-between items-start gap-2">
-                                                            <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug" x-text="slot.events[roomKey].title"></h4>
+                                                            <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug" x-html="slot.events[roomKey].title"></h4>
                                                             <span x-if="slot.events[roomKey].hasDetails" class="text-slate-400 text-xs transition-transform pt-0.5" :class="isExpanded(slot.events[roomKey].id) ? 'rotate-180' : ''">▼</span>
                                                         </div>
                                                         
@@ -158,61 +158,57 @@
 
                     //朝食
                     {
-                        day: '2日目',
-                        time: '06:30',
-                        isGlobal: true,
+                        day: '2日目', time: '06:30', isGlobal: true,
                         events: {
                             global: { id: 401, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
                         }
                     },
                     {
-                        day: '3日目',
-                        time: '06:30',
-                        isGlobal: true,
+                        day: '3日目', time: '06:30', isGlobal: true,
                         events: {
                             global: { id: 402, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
                         }
                     },
                     //昼食
                     {
-                        day: '2日目',
-                        time: '12:30',
-                        isGlobal: true,
+                        day: '2日目', time: '12:30', isGlobal: true,
                         events: {
-                            global: { id: 403, title: '昼食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                            global: { id: 403, title: '昼食・バーベキュー・自由活動', speaker: '', tag: '', isBreak: true, hasDetails: false }
                         }
                     },
                                                             
                     //夕食
                     {
-                        day: '1日目',
-                        time: '16:50', 
-                        isGlobal: true,
+                        day: '1日目', time: '16:50', isGlobal: true,
                         events: {
                             global: { id: 404, title: '夕食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
                         }
                     },
                     {
-                        day: '1日目',
-                        time: '09:00',
-                        isGlobal: true,
+                        day: '2日目', time: '17:50', isGlobal: true,
                         events: {
-                            global: {
-                                id: 101324561,
-                                title: 'あああオリエンテーション',
-                                speaker: '運営委員会',
-                                tag: '式典',
-                                isBreak: false,
-                                hasDetails: true,
-                                description: 'ありがとうございます'
-                            }
+                            global: { id: 405, title: '夕食・休憩', speaker: '', tag: '', isBreak: true, hasDetails: false }
                         }
                     },
+                    //夕食
+                    {
+                        day: '1日目', time: '22:00', isGlobal: true,
+                        events: {
+                            global: { id: 406, title: '懇親会', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                        }
+                    },
+                    {
+                        day: '2日目', time: '22:00', isGlobal: true,
+                        events: {
+                            global: { id: 407, title: '懇親会', speaker: '', tag: '', isBreak: true, hasDetails: false }
+                        }
+                    },
+                                                                            
+                                        
                     //1日目発表
                     {
                         day: '1日目',
-                        time: '14:00', endTime: '14:20',
-                        isGlobal: false,
+                        time: '14:00', endTime: '14:20', isGlobal: false,
                         events: {
                             roomA: { 
                                 id: 101, 
@@ -241,8 +237,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '14:25', endTime: '14:45',
-                        isGlobal: false,
+                        time: '14:25', endTime: '14:45', isGlobal: false,
                         events: {
                             roomA: { 
                                 id: 104, 
@@ -272,8 +267,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '14:50', endTime: '15:10',
-                        isGlobal: false,
+                        time: '14:50', endTime: '15:10', isGlobal: false,
                         events: {
                             roomA: { 
                                 id: 107, 
@@ -303,8 +297,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '15:15', endTime: '15:35',
-                        isGlobal: false,
+                        time: '15:15', endTime: '15:35', isGlobal: false,
                         events: {
                             roomA: { 
                                 id: 110, 
@@ -505,40 +498,327 @@
                     //2日目発表
                     {
                         day: '2日目',
-                        time: '08:30', endTime: '08:50',
-                        isGlobal: false,
+                        time: '08:30', endTime: '08:50', isGlobal: false,
                         events: {
                             roomA: { 
-                                id: 1042345366, 
+                                id: 122, 
                                 title: 'B-JASコーパスにおけるオノマトペの産出に関する一考察 ー「のんびり」を例にー（仮）', 
                                 speaker: '李振華', 
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '一橋大学', 
-                                downloadUrl: 'https://www.youtube.com/' },
+                                downloadUrl: 'https://drive.google.com/drive/folders/1kMzzKjmQI15a9wDVtlAhRPOQXWvS1qja?usp=sharing' },
                             roomB: { 
-                                id: 16453453543, 
+                                id: 123, 
                                 title: '日本語学習者による「名詞＋動詞」コロケーションに対する日本語母語話者の評価 ー語の頻度と誤用のタイプの影響ー', 
                                 speaker: '朱彤', 
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '広島大学', 
-                                downloadUrl: 'https://cir.nii.ac.jp/' },
+                                downloadUrl: 'https://drive.google.com/drive/folders/1PuA0ZwhEZuV2dV6xTml8ZppFQpxvK4Cx?usp=sharing' },
                             roomC: { 
-                                id: 13244534535678, 
+                                id: 124, 
                                 title: '動詞連用形の重複表現について', 
                                 speaker: '野村百花', 
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '埼玉大学', 
-                                downloadUrl: 'https://cir.nii.ac.jp/' }
+                                downloadUrl: 'https://drive.google.com/drive/folders/19jSB9TPtXrtpKsXue1B6ElNGesHntr38?usp=drive_link' }
                         }
                     },
+                    {
+                        day: '2日目',
+                        time: '08:55', endTime: '09:15', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 125, 
+                                title: '中国で使用されている日本語教科書における「〜ておく」の分析(仮)', 
+                                speaker: 'YUAN SHUIMA', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '広島大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1b02g3o-DIb0GOO8QuT0XQQiumPQp2sCm?usp=sharing' },
+                            roomB: { 
+                                id: 126, 
+                                title: 'AIによる採点とフィードバックを活用した日本語作文の独学は可能か', 
+                                speaker: '周 垚蒴', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '埼玉大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1R8QPgZL0wOraEzm3O6j8hEhSIyzMKbCx?usp=sharing' },
+                            roomC: { 
+                                id: 127, 
+                                title: '学習者の多義語の意味理解', 
+                                speaker: '斉建宇', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '東京都立大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1_HZt8JcIqrG2AEUdQCiXCKZEWMSJlvow?usp=sharing' }
+                        }
+                    },
+                    {
+                        day: '2日目', time: '09:20', endTime: '09:40', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 128, 
+                                title: '終止形は何を終止するのか――形式的終止と叙述成立のずれ――', 
+                                speaker: '近藤智子', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '一橋大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1jmbOXLTZgPtLB4sM59CXh7-4nUXBlUMR?usp=sharing' },
+                            roomB: { 
+                                id: 129, 
+                                title: '上級日本語学習者を対象としたディクトグロスタスクのデザイン―修正段階に着目して―', 
+                                speaker: '松澤 咲陽子', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '広島大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1d666b73woQwbouqL4bXrPxMdstVJ8l57?usp=sharing' },
+                            roomC: { 
+                                id: 130, 
+                                title: '初級教科書から分析する会話を円滑に進めるための聞き手反応の研究', 
+                                speaker: '野村眞珠', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '聖心女子大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1rft66NuOUV9cqajbVkMJUj7cAUj0kHcW?usp=sharing' }
+                        }
+                    },
+                    {
+                        day: '2日目', time: '09:45', endTime: '10:05', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 131, 
+                                title: '「日本語教師のキャリア形成」（未定）', 
+                                speaker: '恩部知香', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '一橋大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1-WxvNdeNvnG3srz3ab0lEs3Tm1tvz6k7?usp=sharing' },
+                            roomB: { 
+                                id: 132, 
+                                title: 'HVPTを用いた日本語長母音の指導法　－インドネシア語母語話者を対象として－（仮）', 
+                                speaker: '大内　深雪', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '広島大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1fYmC_tjq4GG6ezudXxaVDOnb8Bo3nJjb?usp=sharing' },
+                            roomC: { 
+                                id: 133, 
+                                title: '学習者の打ち言葉研究', 
+                                speaker: '李藝韻', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '東京都立大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1Qwhge4WVTVx6LBZbca7g8_S9FeF1LpFS?usp=sharing' }
+                        }
+                    },
+                    {
+                        day: '2日目', time: '10:10', endTime: '10:30', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 134, 
+                                title: '状況と目的に応じた表現選択能力を育てる指導の枠組みの研究 ―授受表現を具体例として―', 
+                                speaker: '小林飛玲乃', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '一橋大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1cdL5jq-vSPMcPHSJ9JpKkX6vhz1mjDQ7?usp=sharing' },
+                            roomB: { 
+                                id: 135, 
+                                title: '日本語学習者の理解支援における語彙提示と談話構成の関係', 
+                                speaker: '白雲', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '広島大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1zAQM2jmJP1V9Au5iW6IA_bwt4k3nbvWx?usp=sharing' },
+                            roomC: { 
+                                id: 136, 
+                                title: '中国の大学入試のための日本語のリスニング対策', 
+                                speaker: '王  超文', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '北京大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1IXvt3xSDqWqwBHFC90uWg7BpflYD87ov?usp=sharing' }
+
+                        }
+                    },
+                    {
+                        day: '2日目', time: '10:35', endTime: '10:55', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 137, 
+                                title: '初級日本語教育にける効率的な語彙指導 ―一斉指導とDIに基づく指導法の比較－', 
+                                speaker: 'タムワンシン', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '一橋大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/19akGODYaFhr3wMOQZ-8KgNxzZgc5nt6B?usp=sharing' },
+                            roomB: { 
+                                id: 138, 
+                                title: 'Estimating Lexical Meaning in Spanish Semicopular Verbs: A Corpus-Based Study of the Alternation between <i>"estar"</i> and <i>"encontrarse"</i>', 
+                                speaker: '村井勇輝', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '大阪大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1TcFSU5r3hpqphHkx4brDG-mZ_CYgOVtG?usp=sharing' 
+                            },
+                            roomC: { 
+                                id: 139, 
+                                title: 'キルギスにおけるバイリンガルおよびモノリンガル日本語学習者の不同意表現　ー語用論的側面に着目してー', 
+                                speaker: 'バザルクロフ　デニス', 
+                                tag: '学生', 
+                                hasDetails: true, 
+                                description: '広島大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1gIL3Jt5Ort1kx_lKJMWFyGVZmO1Fl4Jo?usp=sharing' }
+                                
+                        }
+                    },
+                    {
+                        day: '2日目', time: '11:00', endTime: '11:30', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 137, 
+                                title: 'TRコーパスに基づく超級日本語学習者の学習経験分析', 
+                                speaker: '森篤嗣', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '武庫川女子大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1sw7rShlFlfWDEpxyp7gLMPUZzIJYRMgs?usp=sharing' },
+                            roomB: { 
+                                id: 138, 
+                                title: '日本語の少数を表す語の範囲に関する研究 ー日本語母語話者へのクラウドソーシング調査から－（仮）', 
+                                speaker: '三井　さや花', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '山梨英和大学／一橋大学大学院博士課程', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1zougxsAKxd8QBbuGjKZ0J6hr-esiVek5?usp=sharing' },                                                            
+                        }
+                    },
+                    {
+                        day: '2日目', time: '11:35', endTime: '12:05', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 139, 
+                                title: '未定', 
+                                speaker: '麻 子軒', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '京都外国語大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1G261NBI4-S8CDPgYxT5H4Y-sADsWcLAF?usp=sharing' },
+                            roomB: { 
+                                id: 140, 
+                                title: '翻訳文から見る上級以上の日本語学習者における日本語運用（仮）', 
+                                speaker: '葉懿萱', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '無所属', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1pxFZWUJmae-I0qpJ1Ba5Z7P5CfpG18Jl?usp=sharing' },                                                            
+                        }
+                    },
+                    {
+                        day: '2日目', time: '12:10', endTime: '12:40', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 141, 
+                                title: 'みんなで作る『文法コロケーションハンドブックE』', 
+                                speaker: '中俣尚己', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '大阪大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1xWTyr_GOzVGF_zGFx8DfqBW8VTHvcLYV?usp=sharing' },                                                                                        
+                        }
+                    },
+                    {
+                        day: '2日目', time: '19:00', endTime: '19:30', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 142, 
+                                title: '評価・感情的意味を帯びやすい副詞について（仮）', 
+                                speaker: '朴　秀娟', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '神戸女学院大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1-kAMHt5XS7_XpaKzoi5MR1E3N6t47uiy?usp=sharing' },
+                            roomB: { 
+                                id: 143, 
+                                title: '（仮）字音接頭辞の日中対照研究ー「全〜」と「総〜」を対象にー', 
+                                speaker: '張明', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '川村学園女子大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1X8kMJvZJpMGCfghCFypSjlbWcQGtXW3L?usp=sharing' },                                                            
+                        }
+                    },
+                    {
+                        day: '2日目', time: '19:35', endTime: '20:05', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 144, 
+                                title: '日本語の願望表現について（仮題）', 
+                                speaker: '高梨信乃', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '関西大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1m2gFlVqHC4HLUmVGvDdgoshcLY5hWcb6?usp=sharing' },
+                            roomB: { 
+                                id: 145, 
+                                title: '日本語の言い換えの様相', 
+                                speaker: '乾乃璃子', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '京都橘大学助教／神戸女学院大学D6', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1Y2ntFZlTMRGeJw60JujnZs9vCJCBbrAR?usp=sharing' },                                                            
+                        }
+                    },
+                    {
+                        day: '2日目', time: '20:10', endTime: '20:40', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 146, 
+                                title: '日中対照の観点から見た類義語分析', 
+                                speaker: '建石始', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '神戸女学院大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1wIMW-san68faSARB5igixe2ZMQq1fPJc?usp=sharing' },
+                            roomB: { 
+                                id: 147, 
+                                title: '（発表内容未定・仮タイトル）中国語母語話者による日本語の漢語接辞の使用', 
+                                speaker: '早川　杏子', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '一橋大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/17U-sLlC2XRJeEpK0GkAZsxsT8xlcH2Bz?usp=sharing' },                                                            
+                        }
+                    },
+                    {
+                        day: '2日目', time: '20:45', endTime: '21:15', isGlobal: false,
+                        events: {
+                            roomA: { 
+                                id: 148, 
+                                title: '法律文の構造と使用実態', 
+                                speaker: '岩田一成', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '聖心女子大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/16l9BUwXeO0NGn1BnGsLTF3MPsKBRbJ6_?usp=sharing' },
+                            roomB: { 
+                                id: 149, 
+                                title: '大学生はSDGs「ジェンダー平等」をどう語るか', 
+                                speaker: '加藤恵梨', 
+                                tag: '教員', 
+                                hasDetails: true, 
+                                description: '愛知教育大学', 
+                                downloadUrl: 'https://drive.google.com/drive/folders/1EyvNE0KJ8l4SyfVImXnlXbjgyNI0KtKr?usp=sharing' },                                                            
+                        }
+                    },
+
+
                     //3日目発表
                     {
-                        day: '3日目',
-                        time: '08:30',
-                        isGlobal: false,
+                        day: '3日目', time: '08:55', endTime: '09:15', isGlobal: false,                        
                         events: {
                             roomA: { 
                                 id: 10445344226, 
@@ -547,7 +827,7 @@
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '関西大学', 
-                                downloadUrl: 'https://www.youtube.com/' },
+                                downloadUrl: 'https://drive.google.com/drive/folders/1JGZEikM4srHVbi2hz7fzTa4hoRVmV33g?usp=sharing' },
                             roomB: { 
                                 id: 1643222553543, 
                                 title: '中国人学習者の断り表現についての縦断的考察', 
@@ -555,7 +835,7 @@
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '埼玉大学', 
-                                downloadUrl: 'https://cir.nii.ac.jp/' },
+                                downloadUrl: 'https://drive.google.com/drive/folders/18Hm3QHRyEleWwLgHdlVyJEW1WDzxYcRA?usp=sharing' },
                             roomC: { 
                                 id: 13244535678, 
                                 title: '生成系AIを用いた会話事前練習が日本語学習者のやり取り能力と会話不安に与える影響 ―ChatGPTとのロールプレイ実践を通して―', 
@@ -563,7 +843,7 @@
                                 tag: '学生', 
                                 hasDetails: true, 
                                 description: '山梨英和大学', 
-                                downloadUrl: '' }
+                                downloadUrl: 'https://drive.google.com/drive/folders/1UGimhOO3GHCvGqAQDxTRIzaTR4KfLAP5?usp=sharing' }
                         }
                     }
                 ],
@@ -593,9 +873,9 @@
                 getTagClass(tag) {
                     const classes = {
                         '式典': 'bg-slate-100 text-slate-700',
-                        '教員': 'bg-blue-50 text-blue-700 border border-blue-100',
+                        '教員': 'bg-teal-50 text-teal-700 border border-teal-100',
                         '学生': 'bg-orange-50 text-orange-700 border border-orange-100',
-                        '言語学': 'bg-teal-50 text-teal-700 border border-teal-100'
+                        '言語学': 'bg-blue-50 text-blue-700 border border-blue-100'
                     };
                     return classes[tag] || 'bg-gray-100 text-gray-700';
                 }
