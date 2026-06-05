@@ -149,10 +149,17 @@
                         events: {
                             global: { id: 101, title: '開会式・オリエンテーション', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false }
                         }
+                       {
+                        day: '1日目',
+                        time: '11:00',
+                        isGlobal: true,
+                        events: {
+                            global: { id: 101, title: '昼ごはん', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false }
+                        }  
                     },
                     {
                         day: '1日目',
-                        time: '10:00',
+                        time: '11:10',
                         isGlobal: false, // 💡 ここをfalseにすると3会場並行になります
                         events: {
                             roomA: { id: 102, title: 'ああああ：微積分の応用', speaker: '田中 誠一', tag: '教員', hasDetails: true, description: 'データ科学や多変量解析における微分積分の実用的な適用例について論じます。', downloadUrl: 'https://www.youtube.com/' },
@@ -204,8 +211,8 @@
                 getTagClass(tag) {
                     const classes = {
                         '式典': 'bg-slate-100 text-slate-700',
-                        '数学': 'bg-blue-50 text-blue-700 border border-blue-100',
-                        '物理': 'bg-orange-50 text-orange-700 border border-orange-100',
+                        '教員': 'bg-blue-50 text-blue-700 border border-blue-100',
+                        '学生': 'bg-orange-50 text-orange-700 border border-orange-100',
                         '言語学': 'bg-teal-50 text-teal-700 border border-teal-100'
                     };
                     return classes[tag] || 'bg-gray-100 text-gray-700';
