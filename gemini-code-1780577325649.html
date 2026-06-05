@@ -140,21 +140,12 @@
                 // 📊 タイムテーブル データベース（並行版）
                 // ==========================================
                 timelineSlots: [
-                    // --- 1日目 ---
                     {
                         day: '1日目',
                         time: '09:00',
                         isGlobal: true,
                         events: {
-                            global: {
-                                id: 101,
-                                title: '開会式・オリエンテーション',
-                                speaker: '運営委員会',
-                                tag: '式典',
-                                isBreak: false,
-                                hasDetails: true,
-                                description: '本当に出る？'
-                            }
+                            global: { id: 101, title: '開会式・オリエンテーション', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: true, description: '本当に出る？' }
                         }
                     },
                     {
@@ -162,14 +153,7 @@
                         time: '11:00',
                         isGlobal: true,
                         events: {
-                            global: {
-                                id: 102,
-                                title: '2昼ごはん',
-                                speaker: '運営委員会',
-                                tag: '式典',
-                                isBreak: false,
-                                hasDetails: false
-                            }
+                            global: { id: 102, title: '2昼ごはん', speaker: '運営委員会', tag: '式典', isBreak: false, hasDetails: false }
                         }
                     },
                     {
@@ -201,7 +185,7 @@
                     },
                     {
                         day: '1日目',
-                        time: '08:30', // 👈 綺麗にソートされるよう「08:30」に表記を統一
+                        time: '8:30', // 👈 「8:30」表記のままでも自動で「08:30」に補正してソートします
                         isGlobal: true,
                         events: {
                             global: { id: 1119, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
@@ -209,7 +193,7 @@
                     },
                     {
                         day: '3日目',
-                        time: '08:30', // 👈 「08:30」に統一
+                        time: '8:30',
                         isGlobal: true,
                         events: {
                             global: { id: 2229, title: '朝食', speaker: '', tag: '', isBreak: true, hasDetails: false }
@@ -217,40 +201,16 @@
                     }
                 ],
 
-                // 💡 【修正】抽出したスロットをさらに時間の昇順（早い順）にソートして返します
+                // 💡 【修正】頭に「0」がない時間表記（8:30など）が混ざっていても確実に時間順になるよう強化
                 filteredSlots() {
                     return this.timelineSlots
                         .filter(slot => slot.day === this.activeDay)
-                        .sort((a, b) => a.time.localeCompare(b.time));
+                        .sort((a, b) => {
+                            const timeA = a.time.padStart(5, '0'); // 例: "8:30" ➔ "08:30"
+                            const timeB = b.time.padStart(5, '0');
+                            return timeA.localeCompare(timeB);
+                        });
                 },
 
                 getRoomLabel(key) {
-                    const labels = { roomA: '第1会場 (会議室A)', roomB: '第2会場 (会議室B)', roomC: '第3会場 (会議室C)' };
-                    return labels[key];
-                },
-
-                toggleExpand(id) {
-                    if (this.expandedCards.includes(id)) {
-                        this.expandedCards = this.expandedCards.filter(cardId => cardId !== id);
-                    } else {
-                        this.expandedCards.push(id);
-                    }
-                },
-                isExpanded(id) {
-                    return this.expandedCards.includes(id);
-                },
-
-                getTagClass(tag) {
-                    const classes = {
-                        '式典': 'bg-slate-100 text-slate-700',
-                        '教員': 'bg-blue-50 text-blue-700 border border-blue-100',
-                        '学生': 'bg-orange-50 text-orange-700 border border-orange-100',
-                        '言語学': 'bg-teal-50 text-teal-700 border border-teal-100'
-                    };
-                    return classes[tag] || 'bg-gray-100 text-gray-700';
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+                    const labels = { roomA: '第1会場 (会議
