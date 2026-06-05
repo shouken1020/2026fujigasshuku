@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026富士山合宿 ポータルサイト</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans" x-data="campPortal()">
+
+    <header class="bg-emerald-900 text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">🗻 2026富士山合宿 ポータルサイト</h1>
+                <p class="text-sm text-blue-100 mt-1">日程：2026年6月19日〜21日 ｜ 場所: 富士研修所</p>
+            </div>
+            <div class="countdown-btn">何かしらの！</div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+
+        <div class="sticky top-0 z-50 bg-white border-b border-gray-200 mb-6 pt-3">
+    <div class="flex space-x-2">
+        <button @click="currentTab = 'main'" 
+            :class="currentTab === 'main' ? 'border-emerald-600 text-emerald-900 font-medium border-b-2' : 'text-gray-400 hover:text-gray-700 italic'" 
+            class="pb-3 px-4 text-lg font-medium transition-colors">
+            📅 ようこそ
+        </button>
+
+        <button @click="currentTab = 'schedule'" 
+            :class="currentTab === 'schedule' ? 'border-emerald-600 text-emerald-900 font-medium border-b-2' : 'text-gray-400 hover:text-gray-700 italic'" 
+            class="pb-3 px-4 text-lg font-medium transition-colors">
+            👥 プログラム・発表資料
+        </button>
+
+        <button @click="currentTab = 'links'" 
+            :class="currentTab === 'links' ? 'border-emerald-600 text-emerald-900 font-medium border-b-2' : 'text-gray-400 hover:text-gray-700 italic'" 
+            class="pb-3 px-4 text-lg font-medium transition-colors">
+            🔗 交流・各種情報
+        </button>
+    </div>
+</div>
+
+        <div x-show="currentTab === 'main'" x-transition>
+            <div class="mt-6 space-y-4">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <span class="text-blue-600 text-xl">📢</span>
+                        <h3 class="font-bold text-base text-gray-800">運営からのお知らせ</h3>
+                    </div>
+
+                    <!-- ここからコピー -->
+                     <div class="bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <div class="text-s text-rose-500 font-bold mb-2 flex items-center gap-1">
+                            <span>✨</span> 2026年6月17日 17:00
+                        </div>
+                        <p class="text-m text-gray-700 font-bold leading-relaxed">
+                            一番新しいお知らせ。<br>
+                            kaigyousitemiru
+                        </p>
+                    </div>
+                    <!-- ここまで。更新したらbold解除、日付をgreenに-->
+
+                    <div class="bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <div class="text-xs text-green-600 font-mono mb-2 flex items-center gap-1">
+                            <span>📅</span> 2026年6月18日 17:00
+                        </div>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            前の情報。<br>
+                            kaigyousitemiru
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <span class="text-blue-600 text-xl">🎒</span>
+                        <h3 class="font-bold text-base text-gray-800">当日の持ち物・服装</h3>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        ノートPC、充電ケーブル、筆記用具をご持参ください。館内は空調により肌寒くなる場合があるため、羽織るものがあると便利です。
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <span class="text-blue-600 text-xl">📶</span>
+                        <h3 class="font-bold text-base text-gray-800">会場Wi-Fi情報</h3>
+                    </div>
+                    <div class="text-sm text-gray-700 flex items-center gap-6 bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <p><span class="font-medium text-gray-500">SSID:</span> <code class="bg-white px-2 py-0.5 rounded text-xs font-mono text-blue-600 border border-gray-100 ml-1">Fuji-Seminar-Guest</code></p>
+                        <p><span class="font-medium text-gray-500">PASS:</span> <code class="bg-white px-2 py-0.5 rounded text-xs font-mono text-blue-600 border border-gray-100 ml-1">fuji2026camp</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'schedule'" x-transition>
+            <div class="w-full">
+                <iframe src="https://shouken1020.github.io/2026fujigasshuku/gemini-code-1780577325649.html" class="w-full h-[700px] rounded-xl border border-gray-200 shadow-sm bg-white"></iframe>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'links'" x-transition>
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <h3 class="font-bold text-xl mb-4 text-gray-900 border-b border-gray-100 pb-2">📂 交流</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="https://scholar.google.com.tw/" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
+                        <h4 class="font-bold text-blue-600 group-hover:underline">🤝 交流Padlet</h4>
+                        <p class="text-sm text-gray-500 mt-1">合宿メンバーとの交流や、自由な書き込み・自己紹介はこちらから！</p>
+                    </a>
+                </div>                
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-bold text-xl mb-4 text-gray-900 border-b border-gray-100 pb-2">📂 共有リソース一覧</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="https://www.yahoo.co.jp/" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
+                        <h4 class="font-bold text-blue-600 group-hover:underline">📸 写真共有（dropboxのアップロードリンク）</h4>
+                        <p class="text-sm text-gray-500 mt-1">合宿中に撮った写真はすべてここへアップロードしてください。</p>
+                    </a>
+                    <a href="https://www.irasutoya.com/" target="_blank" rel="noopener noreferrer" class="p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50/50 transition group">
+                        <h4 class="font-bold text-blue-600 group-hover:underline">📖 写真共有（dropboxのアクセスリンク）</h4>
+                        <p class="text-sm text-gray-500 mt-1">アップロードした写真はここから見られます。</p>
+                    </a>
+                    <div class="p-4 border border-gray-100 bg-gray-50 rounded-xl col-span-1 sm:col-span-2">
+
+                        <div class="flex items-center space-x-2 mb-3">
+                        <span class="text-blue-600 text-xl">📶</span>
+                        <h3 class="font-bold text-base text-gray-800">会場Wi-Fi情報</h3>
+                    </div>
+                    <div class="text-sm text-gray-700 flex items-center gap-6 bg-blue-50/50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <p><span class="font-medium text-gray-500">SSID:</span> <code class="bg-white px-2 py-0.5 rounded text-xs font-mono text-blue-600 border border-gray-100 ml-1">Fuji-Seminar-Guest</code></p>
+                        <p><span class="font-medium text-gray-500">PASS:</span> <code class="bg-white px-2 py-0.5 rounded text-xs font-mono text-blue-600 border border-gray-100 ml-1">fuji2026camp</code></p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function campPortal() {
+            return {
+                currentTab: 'main'
+            }
+        }
+    </script>
+</body>
+</html>
